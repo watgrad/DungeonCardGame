@@ -58,11 +58,9 @@ class Deck:
     # create a deal method for dungeon_cards to use in game play
     def deal(self):
         if self.length() > 0:
-            return self.dungeon_cards.pop(0)
+            return self.dungeon_cards.pop(0), ""
         elif self.length() <= 0:
-            print("You've run out of cards!")
-            print("You died of starvation in the dungeon!!  :(")
-            quit()
+            return None, f"You've run out of cards! You died of starvation in the dungeon!!  :("
 
     # create a method to determine how many cards are left
     def length(self):
@@ -180,23 +178,26 @@ class Room:
 
     def set_up_room(self):
         self.direction = self.player.direction
-        self.room_contents.append(self.dungeon.deck.deal())  # get the first card for the room
+        new_card = self.dungeon.deck.deal()
+        if new_card[0]:
+            self.room_contents.append(new_card[0])  # get the first card for the room
+        else:
+            pass # TODO: # messages must be updated and player dies!!!
 
         while self.room_contents[-1].value > 10 or self.room_contents[-1].value == 1:
             # make sure the last card is not a torch, skill, devine blessing, or hoard
-            self.room_contents.append(self.dungeon.deck.deal())
+            new_card = self.dungeon.deck.deal()
+            if new_card[0]:
+                self.room_contents.append(new_card[0])  # get the first card for the room
+            else:
+                print(new_card[1])
+                # TODO: # messages must be updated and player dies!!!
 
         self.event = self.room_contents[-1]  # set reference to 'monster' for as the event to track health and messages
 
         for card in self.room_contents:  # scan the current  room hand so far for special cards
             if card.value == 1:
                 self.player.torches.append(card)
-                self.player.check_torches()
-                if not self.player.living:
-                    print(self.player.death)  # TODO: Handle death -- call an endgame routine?
-                    return False
-                else:
-                    print("You used a torch!")
 
             if card.value == 12:  # if there is a queen in the hand mark devine_intervention true (player wins round)
                 self.devine_intervention = True
@@ -304,15 +305,35 @@ class Room:
 
         if card.suit == Suits.CLUB:
             return club_events.get(card.face)
-#
+# #
 # player = Player()
+# print(player.health)
 # dungeon = Dungeon()
+#
 #
 # dungeon.rooms.append(Room(dungeon, player))
 # dungeon.rooms[-1].set_up_room()
-# print()
+# print(dungeon.rooms[-1].description)
 # a = ""
 # for i in dungeon.deck.health_cards[-1::-1]:
 #     a += i.uni_code
 # print(' '.join([str(i) for i in dungeon.deck.health_cards[-1::-1]]))
-# print(a)
+# print(' '.join([str(i) for i in player.torches[:]]))
+#
+# dungeon.rooms.append(Room(dungeon, player))
+# dungeon.rooms[-1].set_up_room()
+# print(dungeon.rooms[-1].description)
+# a = ""
+# for i in dungeon.deck.health_cards[-1::-1]:
+#     a += i.uni_code
+# print(' '.join([str(i) for i in dungeon.deck.health_cards[-1::-1]]))
+# print(' '.join([str(i) for i in player.torches[:]]))
+#
+# dungeon.rooms.append(Room(dungeon, player))
+# dungeon.rooms[-1].set_up_room()
+# print(dungeon.rooms[-1].description)
+# a = ""
+# for i in dungeon.deck.health_cards[-1::-1]:
+#     a += i.uni_code
+# print(' '.join([str(i) for i in dungeon.deck.health_cards[-1::-1]]))
+# print(' '.join([str(i) for i in player.torches[:]]))

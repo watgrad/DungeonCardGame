@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be9b7f16-11d6-4e35-ae52-3d4c16d207fe" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../DungeonCardsGame/.idea/DungeonCardsGame.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../DungeonCardsGame/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../DungeonCardsGame/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../DungeonCardsGame/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../DungeonCardsGame/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../DungeonCardsGame/data/DejaVuSans.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../DungeonCardsGame/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../DungeonCardsGame/models.py" afterDir="false" />
+    <list default="true" id="be9b7f16-11d6-4e35-ae52-3d4c16d207fe" name="Changes" comment="first">
+      <change beforePath="$PROJECT_DIR$/../DungeonCardsGame/.idea/DungeonCardsGame.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../DungeonCardsGame/.idea/DungeonCardsGame.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DungeonCardsGame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../DungeonCardsGame/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DungeonCardsGame/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../DungeonCardsGame/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,6 +183,19 @@
       <option name="presentableId" value="Default" />
       <updated>1713382259752</updated>
     </task>
+    <task id="LOCAL-00001" summary="first">
+      <option name="closed" value="true" />
+      <created>1713564641415</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1713564641415</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="first" />
+    <option name="LAST_COMMIT_MESSAGE" value="first" />
   </component>
 </project>
