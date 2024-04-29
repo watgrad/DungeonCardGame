@@ -1,4 +1,5 @@
 from enum import Enum
+import copy
 import random
 
 
@@ -188,12 +189,12 @@ class Room:
             # make sure the last card is not a torch, skill, devine blessing, or hoard
             new_card = self.dungeon.deck.deal()
             if new_card[0]:
-                self.room_contents.append(new_card[0])  # get the first card for the room
+                self.room_contents.append(new_card[0])  # add the card to the room contents
             else:
-                print(new_card[1])
+                print(new_card[0]) # this will cause an error - there is no card!!!
                 # TODO: # messages must be updated and player dies!!!
 
-        self.event = self.room_contents[-1]  # set reference to 'monster' for as the event to track health and messages
+        self.event = copy.copy(self.room_contents[-1])  # set reference to 'monster' for as the event to track health and messages
 
         for card in self.room_contents:  # scan the current  room hand so far for special cards
             if card.value == 1:
@@ -206,37 +207,40 @@ class Room:
         self.description = self.event_message(self.event)[1]
         self.name = self.event_message(self.event)[0]
 
-    def draw_card(self):
+    def draw_card(self, player: Player):
         # TODO: when you draw a card, return a standard tuple with consistent values:
         # devine blessing, torches used, damage done, remaining events health  -- this may be impacted by the room?
-        self.room_contents.append(self.dungeon.deck.deal())
+        self.room_contents.append(self.dungeon.deck.deal()[0])
 
         while self.room_contents[-1].value == 1 or self.room_contents[-1].value > 10:
-            self.room_contents.append(self.dungeon.deck.deal())
-
-            if self.room_contents[-1].face == ("12" + self.event.suit.name):  # Calculate this based on the event suit
+            
+            if self.room_contents[-1].value == 12:  # card is a queen
                 self.event.value = 0
                 self.devine_intervention = True
                 return
+            elif self.room_contents[-1].value == 1:
+                player.torches.append(self.room_contents.pop())
+
+            self.room_contents.append(self.dungeon.deck.deal()[0])
 
         self.event.value -= self.room_contents[-1].value
         # print(f"you did {self.room_contents[-1].value} damage!!!")
         # TODO: rather than do this here, just return and let the calling function send messages
         return
 
-    def process_room(self, player: Player):
+    def process_room(self, player: Player, messages: dict):
         message = ""
         for card in self.room_contents:
             if card.value == 13:
                 player.loot.hoards.append(card)
-                message += f"You found one of the King's Hoards! {card.face}\n"
+                messages['input'][2] += f"You found one of the King's Hoards! {card.face}\n"
             if card.suit == Suits.DIAMOND and (11 > card.value > 1):
                 player.loot.treasure.append(card)
-                message += f"You found a treasure {card.face}\n"
+                messages['input'][2] += f"You found a treasure {card.face}\n"
             if card.value == 11:
                 player.loot.scrolls.append(card)
-                message += f"You found the scroll {player.loot.scrolls[card.face]}!\n"
-        return message
+                messages['input'][2] += f"You found the scroll {player.loot.scrolls[-1].face}!\n"
+
 
     def event_message(self, card: Card):
         # This function looks up appropriate messages for the different dungeon events.
@@ -305,14 +309,17 @@ class Room:
 
         if card.suit == Suits.CLUB:
             return club_events.get(card.face)
-# #
+
+
+# #  TESTING CODE TO BE REMOVED
 # player = Player()
-# print(player.health)
 # dungeon = Dungeon()
-#
-#
+
 # dungeon.rooms.append(Room(dungeon, player))
 # dungeon.rooms[-1].set_up_room()
+
+# print(dungeon.rooms[-1].event)
+# print(dungeon.rooms[-1].event.value)
 # print(dungeon.rooms[-1].description)
 # a = ""
 # for i in dungeon.deck.health_cards[-1::-1]:
